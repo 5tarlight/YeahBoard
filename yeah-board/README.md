@@ -1,1 +1,0 @@
-# Yeah board frontend
