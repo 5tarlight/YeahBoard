@@ -28,4 +28,10 @@ class UserDto {
         val createdAt: LocalDateTime,
         val updatedAt: LocalDateTime
     )
+
+    data class UpdateUserDto(
+        val email: String?,
+        val username: String?,
+        val password: String?
+    )
 }
