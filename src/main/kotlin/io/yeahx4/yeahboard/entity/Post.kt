@@ -1,5 +1,7 @@
 package io.yeahx4.yeahboard.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import io.yeahx4.yeahboard.dto.PostDto
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -14,29 +16,43 @@ import jakarta.persistence.OrderBy
 
 @Entity
 data class Post(
-        @Column
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
+    @Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long,
 
-        @Column(length = 30, nullable = false)
-        val title: String,
+    @Column(length = 30, nullable = false)
+    val title: String,
 
-        @Column(columnDefinition = "TEXT", nullable = false)
-        val content: String,
+    @Column(columnDefinition = "TEXT", nullable = false)
+    val content: String,
 
-        @ManyToOne(fetch = FetchType.EAGER)
-        @JoinColumn(nullable = false)
-        val author: User,
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = false)
+    @JsonIgnoreProperties(value = ["posts", "comments"])
+    val author: User,
 
-        @Column(columnDefinition = "integer default 0")
-        val view: Int,
+    @Column(columnDefinition = "integer default 0")
+    var view: Int,
 
-        @OneToMany(
-                mappedBy = "post",
-                fetch = FetchType.EAGER,
-                cascade = [CascadeType.REMOVE]
+    @OneToMany(
+        mappedBy = "post",
+        fetch = FetchType.EAGER,
+        cascade = [CascadeType.REMOVE]
+    )
+    @OrderBy("id asc")
+    val comments: List<Comment> = listOf()
+): BaseTimeEntity() {
+    fun removeAuthorPassword(): PostDto.WithoutPasswordPost {
+        return PostDto.WithoutPasswordPost(
+            id,
+            title,
+            content,
+            author.removePassword(),
+            view,
+            comments,
+            this.createdAt,
+            this.updatedAt
         )
-        @OrderBy("id asc")
-        val comments: List<Comment> = listOf()
-): BaseTimeEntity()
+    }
+}

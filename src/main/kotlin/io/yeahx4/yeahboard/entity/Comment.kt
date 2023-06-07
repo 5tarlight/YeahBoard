@@ -11,19 +11,19 @@ import jakarta.persistence.ManyToOne
 
 @Entity
 data class Comment(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column
-        val id: Long,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    val id: Long,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(nullable = false)
-        val post: Post,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    val post: Post,
 
-        @Column(length = 200, nullable = false)
-        var content: String,
+    @Column(length = 200, nullable = false)
+    var content: String,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(nullable = false)
-        val author: User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false)
+    val author: User
 ): BaseTimeEntity()
