@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -114,6 +115,22 @@ class PostController(
                 user
             )
 
+        return ResponseEntity("Ok", HttpStatus.OK)
+    }
+
+    @DeleteMapping("/delete")
+    fun deletePost(req: HttpServletRequest, @RequestBody dto: PostDto.DeletePostDto): ResponseEntity<String> {
+        val user = getLoginSession(req)
+            ?: return ResponseEntity("Login First", HttpStatus.FORBIDDEN)
+        val post = unwrap(this.postService.findPostById(dto.id))
+            ?: return ResponseEntity("Post Not Found", HttpStatus.NOT_FOUND)
+
+        val isAuthor = this.postService.checkAuthor(user, post)
+
+        if (!isAuthor)
+            return ResponseEntity("No Permission", HttpStatus.FORBIDDEN)
+
+        this.postService.deletePost(dto.id)
         return ResponseEntity("Ok", HttpStatus.OK)
     }
 }

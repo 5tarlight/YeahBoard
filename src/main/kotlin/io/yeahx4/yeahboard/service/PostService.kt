@@ -43,4 +43,8 @@ class PostService(
 
         return result
     }
+
+    fun deletePost(id: Long) {
+        this.postRepository.deleteById(id)
+    }
 }

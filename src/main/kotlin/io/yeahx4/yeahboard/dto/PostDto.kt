@@ -25,4 +25,8 @@ class PostDto {
         val title: String?,
         val content: String?
     )
+
+    data class DeletePostDto(
+        val id: Long
+    )
 }
