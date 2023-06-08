@@ -19,4 +19,10 @@ class PostDto {
         val createdAt: LocalDateTime,
         val updatedAt: LocalDateTime
     )
+
+    data class EditPostDto(
+        val id: Long,
+        val title: String?,
+        val content: String?
+    )
 }

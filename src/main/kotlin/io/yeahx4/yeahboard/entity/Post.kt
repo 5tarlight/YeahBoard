@@ -22,10 +22,10 @@ data class Post(
     val id: Long,
 
     @Column(length = 30, nullable = false)
-    val title: String,
+    var title: String,
 
     @Column(columnDefinition = "TEXT", nullable = false)
-    val content: String,
+    var content: String,
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
