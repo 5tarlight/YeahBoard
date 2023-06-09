@@ -1,5 +1,6 @@
 package io.yeahx4.yeahboard.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.FetchType
@@ -18,6 +19,15 @@ data class Comment(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @JsonIgnoreProperties(
+        "comments",
+        "title",
+        "author",
+        "content",
+        "view",
+        "createdAt",
+        "updatedAt"
+    )
     val post: Post,
 
     @Column(length = 200, nullable = false)
@@ -25,5 +35,6 @@ data class Comment(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
+    @JsonIgnoreProperties("posts", "comments", "password", "createdAt", "updatedAt")
     val author: User
 ): BaseTimeEntity()

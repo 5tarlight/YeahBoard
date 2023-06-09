@@ -29,7 +29,7 @@ data class Post(
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
-    @JsonIgnoreProperties(value = ["posts", "comments"])
+    @JsonIgnoreProperties("posts", "comments", "createdAt", "updatedAt")
     val author: User,
 
     @Column(columnDefinition = "integer default 0")

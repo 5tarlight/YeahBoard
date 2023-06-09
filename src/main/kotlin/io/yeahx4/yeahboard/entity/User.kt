@@ -1,6 +1,5 @@
 package io.yeahx4.yeahboard.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import io.yeahx4.yeahboard.dto.UserDto
 import io.yeahx4.yeahboard.role.UserRole
 import jakarta.persistence.CascadeType
